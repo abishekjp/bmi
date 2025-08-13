@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BMI Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: linear-gradient(135deg, #89f7fe, #66a6ff);
+            background-image: url(bmi.jpg);
+            background-position: center;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            max-width: 400px;
+            margin: auto;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+            text-align: left;
+        }
+        input {
+            padding: 8px;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        /* Dynamic result colors */
+        .underweight { background-color: #fef3c7; color: #b45309; }
+        .normal { background-color: #d1fae5; color: #065f46; }
+        .overweight { background-color: #fef9c3; color: #92400e; }
+        .obese { background-color: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>BMI Calculator</h2>
+        <label>Weight (kg):</label>
+        <input type="number" id="weight" placeholder="Enter weight" oninput="calculateBMI()">
+        
+        <label>Height (cm):</label>
+        <input type="number" id="height" placeholder="Enter height" oninput="calculateBMI()">
+        
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculateBMI() {
+            let weight = parseFloat(document.getElementById('weight').value);
+            let heightCm = parseFloat(document.getElementById('height').value);
+            let resultDiv = document.getElementById('result');
+
+            // Clear previous styles
+            resultDiv.className = "result";
+
+            if (isNaN(weight) || isNaN(heightCm) || weight <= 0 || heightCm <= 0) {
+                resultDiv.innerHTML = "";
+                return;
+            }
+
+            let heightM = heightCm / 100;
+            let bmi = weight / (heightM * heightM);
+            let status = "";
+
+            if (bmi < 18) {
+                status = "Underweight";
+                resultDiv.classList.add("underweight");
+            }
+            else if (bmi >= 18 && bmi < 25) {
+                status = "Normal";
+                resultDiv.classList.add("normal");
+            }
+            else if (bmi >= 25 && bmi < 30) {
+                status = "Overweight";
+                resultDiv.classList.add("overweight");
+            }
+            else {
+                status = "Obese";
+                resultDiv.classList.add("obese");
+            }
+
+            resultDiv.innerHTML = `Your BMI: ${bmi.toFixed(1)}<br>Status: ${status}`;
+        }
+    </script>
+</body>
+</html>
